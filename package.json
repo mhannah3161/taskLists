@@ -12,6 +12,7 @@
     "render-build": "npm install and npm run build"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
     "mongoose": "^8.0.4",
     "react": "^18.2.0"
   }
