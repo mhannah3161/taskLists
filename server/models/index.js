@@ -1,5 +1,4 @@
-const User = require('./User');
-const Notes = require('./Notes');
-const Employee = require('./Employees');
+const { Employee, EmployeeNotes, CorrectiveAction, Positive} = require('./Employees');
+const {  User, Notes, ToDo} = require('./User'); 
 
-module.exports = { User, Notes, Employee };
+module.exports = { User, Notes, Employee, EmployeeNotes, CorrectiveAction, Positive, ToDo };

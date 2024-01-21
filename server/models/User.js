@@ -5,44 +5,15 @@ const isPassword = (value) => {
   return /^[a-zA-Z0-9]+$/.test(value) && value.length >= 5;
 };
 
-const employeeSchema = new mongoose.Schema({
-  first_name: String,
-    last_name: String,
-    email: String,
-    phone: String,
-    employee_notes: [employeeNotesSechema],
-    collections: [collectionSchema],
-});
+const toDoSchema = new mongoose.Schema({
+    toDos_name: String,
+    toDos_description: String,
+    });
 
 const notesSchema = new mongoose.Schema({
   notes_name: String,
   notes_description: String,
 });
-
-const employeeNotesSechema = new mongoose.Schema({
-    employeeNotes_name: String,
-    employeeNotes_description: String,
-    });
-
-const correctiveActionSchema = new mongoose.Schema({
-    correctiveAction_name: String,
-    correctiveAction_pictures: String,
-    correctiveAction_description: String,
-    });
-
-const positiveSchema = new mongoose.Schema({
-    positive_name: String,
-    positive_pictures: String,
-    positive_description: String,
-    });
-
-const collectionSchema = new mongoose.Schema({
-  collection_id: mongoose.Schema.Types.ObjectId,
-  collection_name: String,
-  collection_correctiveActions: [correctiveActionSchema],
-  collection_positives: [positiveSchema],
-});
-
 
 const userSchema = new mongoose.Schema(
   {
@@ -76,10 +47,6 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Notes',
     }],
-    decks: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Deck',
-    }],
     timestamp: {
       type: Date,
       default: Date.now,
@@ -99,5 +66,9 @@ userSchema.methods.isCorrectPassword = async function (password) {
 };
 
 const User = mongoose.model('User', userSchema);
+const Notes = mongoose.model('Notes', notesSchema);
+const ToDo = mongoose.model('ToDo', toDoSchema);
 
-module.exports = User;
+module.exports = {
+    User, Notes, ToDo
+}
