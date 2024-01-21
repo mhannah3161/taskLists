@@ -72,6 +72,21 @@ const resolvers = {
             throw new Error(`Error getting user by username: ${error.message}`);
         }
     },
+    getOneNotes: async (parent, { _id }) => {
+        try {
+            // Find the user by username and populate collections and decks
+            const notes = await Notes.findOne({ _id })
+                .populate({ path: 'notes' });
+
+            if (!notes) {
+                throw new AuthenticationError('No user found with this username');
+            }
+
+            return notes;
+        } catch (error) {
+            throw new Error(`Error getting user by username: ${error.message}`);
+        }
+    },
     getAllToDo: async (parent, { _id }) => {
         try {
             // Find the user by username and populate collections and decks
@@ -90,6 +105,21 @@ const resolvers = {
             }
 
             return user;
+        } catch (error) {
+            throw new Error(`Error getting user by username: ${error.message}`);
+        }
+    },
+    getOneToDo: async (parent, { _id }) => {
+        try {
+            // Find the user by username and populate collections and decks
+            const toDo = await ToDo.findOne({ _id })
+                .populate({ path: 'toDo' });
+
+            if (!toDo) {
+                throw new AuthenticationError('No user found with this username');
+            }
+
+            return toDo;
         } catch (error) {
             throw new Error(`Error getting user by username: ${error.message}`);
         }
@@ -203,7 +233,7 @@ const resolvers = {
         } catch (error) {
             throw new Error(`Error getting user by username: ${error.message}`);
         }
-    }, 
+    },
     getAllEmployeeNotes: async (parent, { _id }) => {
         try {
             // Find the user by username and populate collections and decks
@@ -228,14 +258,14 @@ const resolvers = {
         try {
             // Find the user by username and populate collections and decks
             const user = await User.findOne({ _id })
-            .populate({
-                path: 'notes',
-                populate: { path: 'notes' }
-            })
-            .populate({
-                path: 'toDo',
-                populate: { path: 'toDo' }
-            });
+                .populate({
+                    path: 'notes',
+                    populate: { path: 'notes' }
+                })
+                .populate({
+                    path: 'toDo',
+                    populate: { path: 'toDo' }
+                });
             if (!user) {
                 throw new AuthenticationError('No user found with this username');
             }
@@ -248,14 +278,14 @@ const resolvers = {
         try {
             // Find the user by username and populate collections and decks
             const user = await User.findOne({ _id })
-            .populate({
-                path: 'notes',
-                populate: { path: 'notes' }
-            })
-            .populate({
-                path: 'toDo',
-                populate: { path: 'toDo' }
-            });
+                .populate({
+                    path: 'notes',
+                    populate: { path: 'notes' }
+                })
+                .populate({
+                    path: 'toDo',
+                    populate: { path: 'toDo' }
+                });
             if (!user) {
                 throw new AuthenticationError('No user found with this username');
             }
@@ -268,14 +298,14 @@ const resolvers = {
         try {
             // Find the user by username and populate collections and decks
             const user = await User.findOne({ _id })
-            .populate({
-                path: 'notes',
-                populate: { path: 'notes' }
-            })
-            .populate({
-                path: 'toDo',
-                populate: { path: 'toDo' }
-            });
+                .populate({
+                    path: 'notes',
+                    populate: { path: 'notes' }
+                })
+                .populate({
+                    path: 'toDo',
+                    populate: { path: 'toDo' }
+                });
             if (!user) {
                 throw new AuthenticationError('No user found with this username');
             }
