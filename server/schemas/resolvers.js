@@ -524,6 +524,5 @@ const resolvers = {
                 throw new Error(`Error during login: ${error.message}`);
             }
         }
-
-
-    };
+    }
+};
