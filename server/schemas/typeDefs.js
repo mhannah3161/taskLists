@@ -46,4 +46,9 @@ type CorrectiveAction {
     correctiveAction_pictures: String
     correctiveAction_description: String
 }
+type EmployeeToDo { 
+    _id: ID
+    employeeToDo_name: String
+    employeeToDo_description: String
+}
 `;
