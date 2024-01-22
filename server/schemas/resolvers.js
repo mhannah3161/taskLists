@@ -1,4 +1,4 @@
-const { User, Notes, Employee, EmployeeNotes, CorrectiveAction, Positive, ToDo } = require('../models');
+const { User, Notes, Employee, EmployeeNotes, CorrectiveAction, Positive, ToDo, EmployeeToDo } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 const bcrypt = require('bcryptjs');
@@ -234,6 +234,26 @@ const resolvers = {
             throw new Error(`Error getting user by username: ${error.message}`);
         }
     },
+    getOneEmployeeToDo: async (parent, { _id }) => {
+        try {
+            // Find the user by username and populate collections and 
+            const user = await User.findOne({ _id })
+                .populate({
+                    path: 'notes',
+                    populate: { path: 'notes' }
+                })
+                .populate({
+                    path: 'toDo',
+                    populate: { path: 'toDo' }
+                });
+            if (!user) {
+                throw new AuthenticationError('No user found with this username');
+            }
+            return user;
+        } catch (error) {
+            throw new Error(`Error getting user by username: ${error.message}`);
+        }
+    },
     getAllEmployeeNotes: async (parent, { _id }) => {
         try {
             // Find the user by username and populate collections and decks
@@ -372,6 +392,14 @@ const resolvers = {
                 throw new Error(`Error creating toDo: ${error.message}`);
             }
         },
+        addEmployeeToDo: async (parent, { employeeToDo_name, employeeToDo_description }) => {
+            try {
+                const employeeToDo = await EmployeeToDo.create({ employeeToDo_name, employeeToDo_description });
+                return employeeToDo;
+            } catch (error) {
+                throw new Error(`Error creating employeeToDo: ${error.message}`);
+            }
+        },
         deleteNotes: async (parent, { _id }) => {
             try {
                 const notes = await Notes.findOneAndDelete({ _id });
@@ -418,6 +446,26 @@ const resolvers = {
                 return toDo;
             } catch (error) {
                 throw new Error(`Error deleting toDo: ${error.message}`);
+            }
+        },
+        deleteEmployeeToDo: async (parent, { _id }) => {
+            try {
+                const employeeToDo = await EmployeeToDo.findOneAndDelete({ _id });
+                return employeeToDo;
+            } catch (error) {
+                throw new Error(`Error deleting employeeToDo: ${error.message}`);
+            }
+        },
+        updateEmployeeToDo: async (parent, { _id, employeeToDo_name, employeeToDo_description }) => {
+            try {
+                const employeeToDo = await EmployeeToDo.findOneAndUpdate(
+                    { _id },
+                    { employeeToDo_name, employeeToDo_description },
+                    { new: true }
+                );
+                return employeeToDo;
+            } catch (error) {
+                throw new Error(`Error updating employeeToDo: ${error.message}`);
             }
         },
         updateNotes: async (parent, { _id, notes_name, notes_description }) => {

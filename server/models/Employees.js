@@ -10,6 +10,12 @@ const employeeSchema = new mongoose.Schema({
     employee_notes: [employeeNotesSchema],
     positive: [positiveSchema],
     correctiveActions: [correctiveActionSchema],
+    employeeToDo: [employeeToDoSchema],
+});
+
+const employeeToDoSchema = new mongoose.Schema({
+    employeeToDo_name: String,
+    employeeToDo_description: String,
 });
 
 const employeeNotesSchema = new mongoose.Schema({
@@ -32,10 +38,11 @@ const correctiveActionSchema = new mongoose.Schema({
 
 
 const Employee = mongoose.model('Employee', employeeSchema);
+const EmployeeToDo = mongoose.model('EmployeeToDo', employeeToDoSchema);
 const EmployeeNotes = mongoose.model('EmployeeNotes', employeeNotesSchema);
 const CorrectiveAction = mongoose.model('CorrectiveAction', correctiveActionSchema);
 const Positive = mongoose.model('Positive', positiveSchema);
 
 module.exports = {
-    Employee, EmployeeNotes, CorrectiveAction, Positive
+    Employee, EmployeeNotes, CorrectiveAction, Positive, EmployeeToDo
 }
